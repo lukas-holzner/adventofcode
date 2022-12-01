@@ -1,4 +1,4 @@
-with open('1/part1-input.txt') as f:
+with open('1/input.txt') as f:
     lines = f.readlines()
 
 elves = [0]
