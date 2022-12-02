@@ -20,3 +20,4 @@ for i in topthree:
     sum += i[1]
 
 print("\n Sum: " + str(sum))
+# test
