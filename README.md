@@ -24,4 +24,4 @@ I want to try to use as many lanueages as possible :) Here is a list of language
 - [ ] Assembler
 - [ ] Basic
 - [ ] PHP
-- [ ] Switft
+- [ ] Swift
