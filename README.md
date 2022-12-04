@@ -26,4 +26,7 @@ I want to try to use as many lanueages as possible :) Here is a list of language
 - [ ] Basic
 - [ ] PHP
 - [ ] Swift
+- [ ] Ruby
+- [ ] Matlab
+- [ ] R
 - [x] LibreOffice Calc
