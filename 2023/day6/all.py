@@ -18,22 +18,34 @@ def get_winning_distance_range(time, distance):
             math.floor(toc)
         )
 
-def parse_paper(paper):
+def parse_paper_part1(paper):
     lines = paper.split('\n') 
     time = list(map(int,lines[0].split(': ')[1].split()))
     distance = list(map(int,lines[1].split(': ')[1].split()))
 
     return list(zip(time,distance))
 
+def parse_paper_part2(paper):
+    lines = paper.split('\n') 
+    time = int(''.join(lines[0].split(': ')[1].split()))
+    distance = int(''.join(lines[1].split(': ')[1].split()))
+    return [(time,distance)]
 
-with open("/workspaces/adventofcode/2023/day6/input.txt") as f:
-    paper = f.read()
-    timetodist = parse_paper(paper)
+def calculate_total_winning_ms(timetodist):
     total = 1
+    print(timetodist)
     for time, distance in timetodist:
         fromc,toc = get_winning_distance_range(time, distance)
         winning_ms = (toc - fromc + 1)
         print(f"Time: {time}, Distance: {distance}, Number of Winning ms: {winning_ms}, From: {fromc}, To: {toc}")
         total *= winning_ms
-    print(total)
+    return total
+
+with open("/workspaces/adventofcode/2023/day6/input.txt") as f:
+    paper = f.read()
+    timetodist = parse_paper_part1(paper)
+    print(f"Part1 Total Winning Milliseconds: {calculate_total_winning_ms(timetodist)}")
+    timetodist = parse_paper_part2(paper)
+    print(f"Part2 Total Winning Milliseconds: {calculate_total_winning_ms(timetodist)}")
+
     
