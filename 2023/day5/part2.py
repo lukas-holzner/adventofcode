@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from tqdm import tqdm
+from concurrent.futures import ThreadPoolExecutor
 
 def get_seed_location(seed, mappings):
     value = seed
@@ -14,6 +15,11 @@ def get_seed_location(seed, mappings):
             value = value
     return value
 
+def process_seed_range(start, end, mappings):
+    lowest_location = float('inf')
+    for j in tqdm(range(start, start+end)):
+        lowest_location = min(lowest_location, get_seed_location(j, mappings))
+    return lowest_location
 
 def interpret_almanac(almanac):
     lines = almanac.split('\n')
@@ -30,14 +36,17 @@ def interpret_almanac(almanac):
 
     lowest_location = float('inf')
 
-    for i in range(0, len(seeds), 2):
-        print(f"Processing seeds {seeds[i]} to {seeds[i]+seeds[i+1]}")
-        for j in tqdm(range(seeds[i], seeds[i]+seeds[i+1])):
-            lowest_location = min(lowest_location, get_seed_location(j, mappings))
+    with ThreadPoolExecutor() as executor:
+        futures = []
+        for i in range(0, len(seeds), 2):
+            print(f"Processing seeds {seeds[i]} to {seeds[i]+seeds[i+1]}")
+            futures.append(executor.submit(process_seed_range, seeds[i], seeds[i+1], mappings))
+
+        lowest_location = min(f.result() for f in futures)
 
     return lowest_location
 
-with open('2023/5/test.txt') as f:
+with open('2023/5/input.txt') as f:
     almanac = f.read()
     lowest = interpret_almanac(almanac)
 
