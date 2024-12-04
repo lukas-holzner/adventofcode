@@ -12,23 +12,20 @@ def read_file(path: str):
 def get_matrix_from_file(path: str):
   return list(map(list,read_file(path)))
 
-def traverse(matrix: List[List[str]], x: int, y: int, dir: int, rest: List[str]) -> int:
-  # Implement the traverse function logic
-  dx = [0, 1, 1, 1, 0, -1, -1, -1]
-  dy = [1, 1, 0, -1, -1, -1, 0, 1]
-  for i, char in enumerate(rest):
-    nx, ny = x + dx[dir] * (i + 1), y + dy[dir] * (i + 1)
-    if not (0 <= nx < len(matrix[0]) and 0 <= ny < len(matrix)) or matrix[ny][nx] != char:
-      return 0
-  return 1
+def is_mas_cross(m: List[List[str]], x: int, y: int) -> int:
+  if not((0 < x < len(m[0])-1) and (0 < y < len(m)-1)):
+    return 0
+  comb = ["MS","SM"]
+  if (m[y-1][x-1] + m[y+1][x+1] in comb) and (m[y-1][x+1] + m[y+1][x-1] in comb):
+    return 1
+  return 0
 
 def search_xmas_count(matrix: List[List[str]]) -> int:
   count = 0
   for y,row in enumerate(matrix):
     for x,value in enumerate(row):
-      if value == 'X':
-        for dir in range(8):
-          count += traverse(matrix,x,y,dir,['M','A','S'])
+      if value == 'A':
+        count += is_mas_cross(matrix,x,y)
   return count
 
 
